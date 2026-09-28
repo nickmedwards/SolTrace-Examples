@@ -1,6 +1,6 @@
 # National Solar Thermal Test Facility
 
-This example shows building a heliostat field using the pysoltrace Python bindings to SolTrace&trade;. The heliostat field is modeled off of the National Solar Thermal Test Facility (NSTTF). This example goes through setting up the data used for a simulation, running a simulation, and generating a flux map of intersection locations on the target.
+This example shows building a heliostat field using the `pysoltrace` Python bindings to SolTrace&trade;. The heliostat field is modeled off of the National Solar Thermal Test Facility (NSTTF). This example goes through setting up the data used for a simulation, running a simulation, and generating a flux map of intersection locations on the target.
 
 NOTE: You may see `chedder` warnings for `__declspec(dllexport)`, `__declspec(dllimport)`, `RunnerStatistics`, `p_callback`, and `fs::path`. These warnings apply to types that aren't used by the python bindings, and are harmless. There are plans to handle these better.
 
@@ -128,7 +128,12 @@ source .venv/bin/activate
 ## Step 3: Install Dependencies
 
 ```bash
-pip install -r requirements.txt
+pip install "pysoltrace>=0.1.0"
+```
+
+NOTE: right now not on PyPi, ask Nick for .whl, only built for Windows right now. Install a wheel with:
+```bash
+pip install path/to/pysoltrace.whl
 ```
 
 ## Step 4: Verify SolTrace Installation
@@ -146,7 +151,7 @@ Expected result:
 ## Step 5: Run Example
 
 ```bash
-python nsttf.py
+python ./nsttf.py
 ```
 
 ## Optional Configuration
