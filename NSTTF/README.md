@@ -193,7 +193,7 @@ runner_type = dot_h.st_runner_type_t.OPTIX
 
 # What should I expect?
 
-## Console Output
+## Reference Output
 
 Example output:
 
@@ -208,7 +208,18 @@ Running Optix simulation...
 Simulated 2869992 intersections.
 ```
 
-A plot should appear after a few seconds. After the plot is closed, you should see.
+A plot should appear after a few seconds. Depending on the time of day simulated the heat map will skew. For example, June 20th, 2025, was simulated:
+
+At noon:
+![Reference Heat Map at Noon](https://github.com/NLR-SolTrace/SolTrace-Examples/blob/main/NSTTF/reference_plot_12.png)
+
+At 9am:
+![Reference Heat Map at 9am](https://github.com/NLR-SolTrace/SolTrace-Examples/blob/main/NSTTF/reference_plot_09.png)
+
+At 3pm:
+![Reference Heat Map at 3pm](https://github.com/NLR-SolTrace/SolTrace-Examples/blob/main/NSTTF/reference_plot_15.png)
+
+After the plot is closed, you should see.
 
 ```text
 Freed context (0x some address...) with code (0) from SolTrace DLL ...
@@ -235,64 +246,7 @@ NSTTF/
 
 Users can confirm success by checking:
 
-- [ ] Simulation completes without errors
-- [ ] Output files are generated
-- [ ] Generated plots appear similar to the reference images
-
-## Reference Output
-
-![Reference Heat Map](https://github.com/NLR-SolTrace/SolTrace-Examples/blob/main/NSTTF/reference_plot.png)
-
----
-
-# Troubleshooting
-
-## Common Issues
-
-### SolTrace Not Found
-
-Error:
-
-```text
-Unable to load SolTrace library
-```
-
-Resolution:
-
-- Verify installation path
-- Verify pinned version
-- Confirm architecture compatibility
-
-### Missing Input Files
-
-Error:
-
-```text
-File not found
-```
-
-Resolution:
-
-- Verify required files are present
-- Verify working directory
-
----
-
-# Reproducibility Notes
-
-To reproduce the published results:
-
-- Use the pinned software versions listed above.
-- Use the provided input files unchanged.
-- Run the example using the documented commands.
-- Record any deviations from the documented environment.
-
----
-
-# References
-
-- SolTrace User Documentation
-- PySolTrace Documentation
+- [ ] Generated plots appear similar to the reference images, depending on time of day the image will skew
 
 ---
 
