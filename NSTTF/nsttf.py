@@ -10,7 +10,6 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
-sys.path.insert(1, os.path.join(sys.path[0], '../..'))
 
 from pysoltrace import api, dot_h, math_utils
 import pysoltrace.soltrace_constants as _STC
@@ -518,6 +517,7 @@ def plot_heat_map(fig, ax, hits):
 if __name__ == '__main__':
     """init api"""
     stapi = api()
+    print('Initialized api')
 
     """
     set up simulation parameters
@@ -534,9 +534,10 @@ if __name__ == '__main__':
     """
 
     # create simulation parameters
-    sim_params = _STC.simulation_parameters(latitude=LATITUDE, longitude=LONGITUDE)
+    sim_params = _STC.simulation_parameters(latitude=LATITUDE, longitude=LONGITUDE) # , number_of_rays=1000
     # set simulation parameters
     stapi.parameters.set(sim_params)
+    print(f'Set simulation parameters:\n{sim_params}')
 
     """
     set up sun for simulation
@@ -560,27 +561,32 @@ if __name__ == '__main__':
     buie = _STC.sun(0, *sun_pos, .05, _STC.sun_shape.BUIE_CSR.value)
     # add sun shape
     stapi.data.sun.add(buie)
+    print(f'Added sun: {buie}')
 
     # create NSTTF geometry based on sun position
     # (i.e., need to set up sun first to aim heliostats)
     NSTTF = make_NSTTF(stapi, sun_pos, False)
+    print('Added NSTTF geometry')
    
     # save data as SolTrace JSON
     stapi.data.json.dump(json_f)
+    print(f'Dumped data into SolTrace JSON: {json_f.resolve()}')
 
     """
     set up simulation runner
 
-    available runners in dot_h.st_runner_type_t object:
+    available runners in dot_h.st_runner_type_t IntEnum:
     EMBREE, OPTIX, NATIVE
     """
-    stapi.runner.setup(dot_h.st_runner_type_t.OPTIX)
+    runner_type = dot_h.st_runner_type_t.OPTIX
+    stapi.runner.setup(runner_type)
     
     # run simulation and report simulation results
+    print(f'Running {runner_type.name.title()} simulation...')
     stapi.runner.run()
     stapi.runner.report()
 
-    print(len(stapi.result))
+    print(f'Simulated {len(stapi.result)} intersections.')
 
     # create DataFrame of the results for easier manipulation
     # need to pass the number of interactions
