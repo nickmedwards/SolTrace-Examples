@@ -246,7 +246,7 @@ NSTTF/
 
 Users can confirm success by checking:
 
-- [ ] Generated plots appear similar to the reference images, depending on time of day the image will skew
+- [ ] Generated plots appear similar to the reference images
 
 ---
 

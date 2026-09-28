@@ -2,6 +2,7 @@
 This file demonstrates stuff that can be done with the Point class
 """
 
+import numpy as np
 from pysoltrace import Point
 
 a = Point(6, 0, 8)
@@ -185,6 +186,12 @@ c = a.copy()
 c @= [6, 0, 8]
 print(f'c @= [6, 0, 8] -> {c}')
 
+print('\nExample of right side matmul for transformation matricies')
+TRANSFORM = np.array([[-1., 0., 0.],
+                      [ 0., 0., 1.],
+                      [ 0., 1., 0.]])
+print(f'TRANSFORM @ a -> {TRANSFORM @ a}')
+
 # __eq__
 e = Point(6, -17, 8)
 print('\nExamples of equality:')
@@ -270,6 +277,15 @@ print(f'c.as_list()     -> {c.as_list()} from {c}')
 print(f'd.as_list()     -> {d.as_list()} from {d}')
 print(f'e.as_list()     -> {e.as_list()} from {e}')
 print(f'zeros.as_list() -> {zeros.as_list()} from {zeros}')
+
+# as_array
+print('\nExamples of Point.as_array:')
+print(f'a.as_array()     -> {a.as_array()} from {a}')
+print(f'b.as_array()     -> {b.as_array()} from {b}')
+print(f'c.as_array()     -> {c.as_array()} from {c}')
+print(f'd.as_array()     -> {d.as_array()} from {d}')
+print(f'e.as_array()     -> {e.as_array()} from {e}')
+print(f'zeros.as_array() -> {zeros.as_array()} from {zeros}')
 
 # from_list
 print('\nExamples of Point.from_list:')
