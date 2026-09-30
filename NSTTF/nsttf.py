@@ -39,7 +39,7 @@ json_f      = current_dir / 'nsttf.json'
 data_dir    = current_dir / 'nsttf_data'
 coords_f    = data_dir / 'coordinates.csv'
 ids_f       = data_dir / 'ids.csv'
-canting_dir = data_dir / 'internal_canting'
+canting_dir = data_dir / 'canting'
 
 ################################
 # set up optical property sets #

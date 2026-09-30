@@ -205,7 +205,7 @@ Added sun: sun(sun values...)
 Added NSTTF geometry
 Dumped data into SolTrace JSON: path\to\SolTrace-Examples\NSTTF\nsttf.json
 Running Optix simulation...
-Simulated 2869992 intersections.
+Simulated (some number...) intersections.
 ```
 
 A plot should appear after a few seconds. Depending on the time of day simulated the heat map will skew. For example, June 20th, 2025, was simulated:
@@ -246,13 +246,16 @@ NSTTF/
 
 Users can confirm success by checking:
 
+- [ ] Input JSON is similar to the reference JSON
 - [ ] Generated plots appear similar to the reference images
 
 ---
 
 # Acknowledgements
 
-Sandia National Labortory for data used in creating NSTTF geometry.
+This example would not be possible without the help of Rebecca Mitchell, Luke McLaughlin and the NSTTF and G3P3 teams at Sandia National Laboratory. The data for this example comes from Aaron Spieles and the OpenCSP team.
+
+OpenCSP Team. OpenCSP: An Environment for Collaborative CSP Optical Technology Development. https://opencsp.sandia.gov.
 
 ---
 
