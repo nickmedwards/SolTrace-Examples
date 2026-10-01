@@ -105,6 +105,13 @@ def add_optical_property_sets(stapi: api, ) -> dict[str,
 ################
 
 def add_tower(stapi: api, optical_id: int) -> tuple[int, _STC.element]:
+    # TODO: move ctype wrappers to a new
+    # NOTE: maybe make position and aim double[3]? avoid people knowing about unpacking
+    """
+    element_args = (double[3], double[3], double, default True, default False) # maybe just directly as function args
+    ap_surf = (type_a, type_s, params_a, params_s)
+    data.element.add(element_args, aperture/surface, optical_id)
+    """
     tower_args = _STC.element(*[0, 0, 30.05],
                               *[0, 1, 30.05],
                               0, True, False,
@@ -495,14 +502,14 @@ def plot_all_projections(pairs, show=True, save_prefix=None):
  
     return figures
 
-def plot_heat_map(fig, ax, hits):
+def plot_heat_map(fig, ax, hits, w: float = 1):
     xs = hits['loc_x'].to_numpy()
     zs = hits['loc_z'].to_numpy()
     bin_x = math_utils.freedman_diaconis_np(xs)
     bin_z = math_utils.freedman_diaconis_np(zs)
     bins = max(bin_x, bin_z)
 
-    _, _, _, im = ax.hist2d(xs, zs, bins=bins, cmap='YlOrRd')
+    _, _, _, im = ax.hist2d(xs, zs, bins=bins, cmap='YlOrRd', weights=w*np.ones(len(hits['loc_x'])))
     ax.scatter(NSTTF['solar 1'][1].x, NSTTF['solar 1'][1].z, marker='x', label='Target(s)', s=40)
 
     ax.set_xlabel('x')
@@ -512,7 +519,7 @@ def plot_heat_map(fig, ax, hits):
     x_bin_len = (xs.max() - xs.min()) / bins
     z_bin_len = (zs.max() - zs.min()) / bins
 
-    fig.colorbar(im, ax=ax, label=f'Rays in ({x_bin_len:.3f} x {z_bin_len:.3f})')
+    fig.colorbar(im, ax=ax, label=f'W per ({x_bin_len:.3f} x {z_bin_len:.3f})')
 
 if __name__ == '__main__':
     """init api"""
@@ -589,8 +596,13 @@ if __name__ == '__main__':
     print(f'Simulated {len(stapi.result)} intersections.')
 
     # create DataFrame of the results for easier manipulation
-    # need to pass the number of interactions
-    results = pd.DataFrame(stapi.result.get(len(stapi.result)))
+    results = pd.DataFrame(stapi.result.get())
+    print(results)
+    # calc power_per_ray if dni is passed
+    _, _, area, nsunrays = stapi.result.sun_stats()
+    dni = 1000
+
+    power_per_ray = area / nsunrays * dni # [W/ray]
 
     # get rays that intersected target
     hits = results[results['element_map'] == NSTTF['solar 1'][0]]
@@ -602,7 +614,7 @@ if __name__ == '__main__':
 
     # make and show plots
     fig, ax = plt.subplots(1, 1)
-    plot_heat_map(fig, ax, hits)
+    plot_heat_map(fig, ax, hits, power_per_ray)
     
     plt.show()
 
